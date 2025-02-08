@@ -8,4 +8,6 @@ Steps :
 
 3- Retrofit with Kotlin Coroutine for API Call
 
-4- Add onNewsClick and onAddToFavorite
+4- Assed the Readme file to project using a pull request 
+
+4- Actions onNewsClick and onAddToFavorite
