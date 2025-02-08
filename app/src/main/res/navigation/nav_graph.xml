@@ -10,7 +10,11 @@
         android:id="@+id/homeFragment"
         android:name="com.example.todaynews.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_readNewsFragment"
+            app:destination="@id/readNewsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.todaynews.FavoriteFragment"
@@ -21,4 +25,9 @@
         android:name="com.example.todaynews.SearchFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/readNewsFragment"
+        android:name="com.example.todaynews.ReadNewsFragment"
+        android:label="fragment_read_news"
+        tools:layout="@layout/fragment_read_news" />
 </navigation>

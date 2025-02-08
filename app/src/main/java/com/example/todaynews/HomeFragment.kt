@@ -5,43 +5,57 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todaynews.data.remote.ArticlesApiService
 import com.example.todaynews.databinding.FragmentHomeBinding
+import com.example.todaynews.domain.repository.NewsArticleRepositoryImpl
+import com.example.todaynews.presentation.ArticleAdapter
+import com.example.todaynews.presentation.HomeScreenViewModel
+import com.example.todaynews.presentation.HomeViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
     private lateinit var articleAdapter: ArticleAdapter
+
+    private val viewModel: HomeScreenViewModel by viewModels {
+        HomeViewModelFactory(NewsArticleRepositoryImpl(ArticlesApiService.getArticlesApiService()))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         articleAdapter = ArticleAdapter()
-        binding?.rvListNews?.apply { layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvListNews.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = articleAdapter
         }
-        load()
 
-        return binding?.root
+        fetchArticles()
+
+        return binding.root
     }
 
-    private fun load(){
-        // Sample Data
-        val articles = listOf(
-            ArticleNews(1, "Breaking News", "This is the first news article.", R.drawable.ic_sports_ighlight),
-            ArticleNews(2, "Technology Update", "Latest advancements in AI.", R.drawable.ic_sports_ighlight),
-            ArticleNews(3, "Sports Highlights", "Today's top sports events.",  R.drawable.ic_sports_ighlight ),
-            ArticleNews(4,  "Health & Wellness", "Tips for a healthier life.", R.drawable.ic_sports_ighlight),
-            ArticleNews(5,  "Entertainment", "Upcoming movies and shows.", R.drawable.ic_sports_ighlight)
-        )
-        articleAdapter.submitData(articles)
-
+    private fun fetchArticles() {
+        lifecycleScope.launch {
+            viewModel.state.collectLatest { state ->
+                articleAdapter.submitData(state.articles)
+                binding.progressBar.isVisible = state.isLoading
+            }
+        }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -1,0 +1,8 @@
+package com.example.todaynews.domain.model
+
+data class ArticleNews(
+    val id : Any,
+    val title: String?,
+    val description: String?,
+    val imageResId: String?
+)
