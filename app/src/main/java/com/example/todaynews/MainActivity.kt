@@ -1,10 +1,9 @@
-package com.example.todaynews.presentation
+package com.example.todaynews
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.todaynews.R
 import com.example.todaynews.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

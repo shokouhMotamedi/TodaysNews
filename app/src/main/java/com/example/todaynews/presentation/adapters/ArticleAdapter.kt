@@ -1,6 +1,5 @@
-package com.example.todaynews.presentation
+package com.example.todaynews.presentation.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +7,9 @@ import com.bumptech.glide.Glide
 import com.example.todaynews.domain.model.ArticleNews
 import com.example.todaynews.databinding.ItemRowBinding
 
-class ArticleAdapter() : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
+class ArticleAdapter(
+    private val onNewsClicked: (ArticleNews) -> Unit
+) : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
 
     private var articles: List<ArticleNews> = emptyList()
 
@@ -38,6 +39,9 @@ class ArticleAdapter() : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>(
                 titleHome.text = articlesNews.title
                 descHome.text = articlesNews.description
                 Glide.with(binding.root).load(articlesNews.imageResId).into(imgNews)
+            }
+            binding.root.setOnClickListener {
+                onNewsClicked(articlesNews)
             }
         }
     }

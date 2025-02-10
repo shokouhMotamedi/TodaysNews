@@ -1,6 +1,5 @@
 package com.example.todaynews.domain.repository
 
-import android.util.Log
 import com.example.todaynews.data.remote.ArticlesApiService
 import com.example.todaynews.data.remote.ArticlesList
 import com.example.todaynews.domain.model.ArticleNews

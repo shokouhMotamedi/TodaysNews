@@ -35,7 +35,7 @@ android {
         jvmTarget = "11"
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -48,22 +48,28 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
 
+
     //Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
 
     //Navigation
-    implementation ("androidx.navigation:navigation-fragment:2.8.5")
-    implementation ("androidx.navigation:navigation-ui:2.8.5")
-    implementation ("androidx.navigation:navigation-ui-ktx:2.7.6")
-    implementation ("com.google.android.material:material:1.9.0")
+    implementation("androidx.navigation:navigation-fragment:2.8.6")
+    implementation("androidx.navigation:navigation-ui:2.8.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+
 
     //retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
-    implementation ("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+
+    //recyclerView
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

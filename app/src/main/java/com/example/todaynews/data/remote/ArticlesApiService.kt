@@ -14,6 +14,7 @@ interface ArticlesApiService {
     suspend fun fetchAllArticles(): Response<ArticlesList>
 
     companion object{
+        // val client = OkHttpClient.Builder().build()
         val client = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()

@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.todaynews.HomeFragment"
+        android:name="com.example.todaynews.presentation.home.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -17,17 +17,21 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.todaynews.FavoriteFragment"
+        android:name="com.example.todaynews.presentation.favorite.FavoriteFragment"
         android:label="Favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_readNewsFragment"
+            app:destination="@id/readNewsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.todaynews.SearchFragment"
+        android:name="com.example.todaynews.presentation.search.SearchFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/readNewsFragment"
-        android:name="com.example.todaynews.ReadNewsFragment"
+        android:name="com.example.todaynews.presentation.detail.ReadNewsFragment"
         android:label="fragment_read_news"
         tools:layout="@layout/fragment_read_news" />
 </navigation>
