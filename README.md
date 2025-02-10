@@ -8,6 +8,9 @@ Steps :
 
 3- Retrofit with Kotlin Coroutine for API Call
 
-4- Assed the Readme file to project using a pull request 
+4- Included the Readme file to the project using a pull request to practice: 
+   Pull request - rebase - branching
 
-4- Actions onNewsClick and onAddToFavorite
+5- Actions for Navigation of onNewsClicked
+
+
