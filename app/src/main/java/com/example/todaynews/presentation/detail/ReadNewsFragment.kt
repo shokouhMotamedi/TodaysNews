@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.todaynews.databinding.FragmentReadNewsBinding
 import com.example.todaynews.presentation.SharedViewModel
@@ -28,6 +29,7 @@ class ReadNewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentReadNewsBinding.inflate(inflater,container,false)
+        findNavController().navigateUp()
             return binding.root
     }
 
@@ -36,7 +38,6 @@ class ReadNewsFragment : Fragment() {
 
         lifecycleScope.launch {
             sharedViewModel.selectedArticle.collectLatest { articleNews ->
-                Log.d("ReadNewsFragment", "shokouh - Received article: ${articleNews?.title}")
                 if(articleNews != null){
                     binding.articleTitle.text = articleNews.title
                     binding.articleDescription.text = articleNews.description

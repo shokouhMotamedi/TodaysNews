@@ -9,6 +9,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/latest_news"
         android:label="@string/app_name"
+        android:name=".NewsApplication"
         android:roundIcon="@drawable/latest_news"
         android:supportsRtl="true"
         android:theme="@style/Theme.TodayNews"

@@ -13,4 +13,4 @@ Steps :
 
 5- Actions for Navigation of onNewsClicked
 
-
+5- AddToFavorite -> using Room Database

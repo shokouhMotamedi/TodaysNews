@@ -33,5 +33,9 @@
         android:id="@+id/readNewsFragment"
         android:name="com.example.todaynews.presentation.detail.ReadNewsFragment"
         android:label="fragment_read_news"
-        tools:layout="@layout/fragment_read_news" />
+        tools:layout="@layout/fragment_read_news" >
+        <action
+            android:id="@+id/action_readNewsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
 </navigation>
