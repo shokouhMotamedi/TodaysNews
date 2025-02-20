@@ -1,10 +1,7 @@
 package com.example.todaynews.domain.usecase
 
-import com.example.todaynews.data.local.ArticleDao
-import com.example.todaynews.data.remote.Article
 import com.example.todaynews.data.remote.ArticlesApiService
 import com.example.todaynews.domain.mapper.ArticleListMapper
-import com.example.todaynews.domain.mapper.ArticleNewsMapper
 import com.example.todaynews.domain.model.ArticleNews
 import com.example.todaynews.domain.repository.article.NewsArticleRepository
 import kotlinx.coroutines.flow.Flow

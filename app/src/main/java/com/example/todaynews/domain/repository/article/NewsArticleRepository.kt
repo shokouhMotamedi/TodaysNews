@@ -14,14 +14,4 @@ interface NewsArticleRepository {
 
     fun getAllArticlesWithIds(ids: List<Int>): Flow<List<ArticleNews>>
 
-    fun getFavorites(): Flow<List<Int>>
-
-    suspend fun addToFavorite(articleNews: ArticleNews)
-
-    suspend fun removeFromFavorite(articleNews: ArticleNews)
-
-    fun getFavoriteArticles(): Flow<List<ArticleNews>>
-
-    suspend fun removeFromFavoriteArticle(articleNews: ArticleNews)
-
 }

@@ -3,57 +3,52 @@ package com.example.todaynews.presentation.favorite
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.todaynews.domain.repository.article.NewsArticleRepository
+import com.example.todaynews.domain.model.ArticleNews
+import com.example.todaynews.domain.usecase.FavoriteUseCase
+import com.example.todaynews.domain.usecase.RemoveFromFavorite
+import com.example.todaynews.domain.usecase.UsecaseResult
+import com.example.todaynews.presentation.home.FavoriteScreenAction
+import com.example.todaynews.presentation.home.SavableArticle
+import com.example.todaynews.presentation.home.StateViewModel
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class FavoriteScreenViewModel(
-    repository: NewsArticleRepository
+    private val favoriteUseCase: FavoriteUseCase,
+    private val removeFromFavorite: RemoveFromFavorite
 ) : ViewModel() {
 
 
-    fun removeFromFavorite(int: Int){
-        viewModelScope.launch {
-          // repository.removeFromFavorite(int)
-        }
-    }
-
-
-
-
-    /*
-    *
-
-    *
-    *
-
-private val _state = MutableStateFlow(StateViewModel())
- val state get() = _state.asStateFlow()
-
-
-    private fun loadArticlesInFavorite(){
-        _state.update { it.copy(isLoading = true) }
-        viewModelScope.launch {
-            val articleFlow = favoritesRepository.getFavorites()
-            articleFlow.onEach {articlesNews ->
-                _state.update { it.copy(isLoading = false, articles = articlesNews) }
-            }.launchIn(viewModelScope)
-            /*
-                or
-             */
-            articleFlow.collect{ articles ->
-                _state.update { it.copy(isLoading = false, articles = articles) }
+    val state = favoriteUseCase.invoke()
+        .map { useCaseResult ->
+            if (useCaseResult is UsecaseResult.Error){
+                useCaseResult.articles
             }
+            StateViewModel(
+                isLoading = useCaseResult is UsecaseResult.Loading,
+                articles = useCaseResult.articles.map { SavableArticle(it,isFavorite = true) }
+            )
+        }
+
+    fun onAction(action: FavoriteScreenAction) {
+        when (action) {
+            is FavoriteScreenAction.RemoveFromFavoritePage -> removeFromFavorite(action.favoriteArticle)
         }
     }
-     */
+
+    private fun removeFromFavorite(article: ArticleNews) {
+        viewModelScope.launch {
+            removeFromFavorite.invoke(article)
+        }
+    }
+
 }
 
-
 class FavoriteViewModelFactory(
-    private val newsArticleRepository: NewsArticleRepository
-): ViewModelProvider.Factory{
+    private val removeFromFavorite: RemoveFromFavorite,
+    private val favoriteUseCase: FavoriteUseCase
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return FavoriteScreenViewModel(newsArticleRepository) as T
-
+        return FavoriteScreenViewModel(favoriteUseCase, removeFromFavorite) as T
     }
 }

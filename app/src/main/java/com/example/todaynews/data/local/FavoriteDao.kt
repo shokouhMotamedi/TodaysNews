@@ -14,7 +14,11 @@ interface FavoriteDao {
     fun getFavorites():Flow<List<FavoriteEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addToFavorite(favoriteEntity: FavoriteEntity)
+    suspend fun addToFavoriteList(articles : List<FavoriteEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addToFavorite(articles: FavoriteEntity)
+
 
     @Delete
     suspend fun removeFromFavorite(favoriteEntity: FavoriteEntity)

@@ -1,9 +1,13 @@
 package com.example.todaynews.data.remote
 
 
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class Article(
+    @PrimaryKey(autoGenerate = true)
+    @SerializedName("id")
+    val id : Int,
     @SerializedName("author")
     val author: String,
     @SerializedName("content")

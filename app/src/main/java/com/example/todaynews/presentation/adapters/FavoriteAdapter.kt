@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.todaynews.databinding.ItemArticleFavoriteBinding
-import com.example.todaynews.domain.model.ArticleNews
+import com.example.todaynews.presentation.home.SavableArticle
 
 class FavoriteAdapter(
-    private val onArticleClicked: (ArticleNews) -> Unit,
-    private val onRemoveFromFavorite: (ArticleNews) -> Unit
+    private val onArticleClicked: (SavableArticle) -> Unit,
+    private val onRemoveFromFavorite: (SavableArticle) -> Unit
 ) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
-    private var article: List<ArticleNews> = emptyList()
+    private var article: List<SavableArticle> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val binding =
@@ -30,25 +30,32 @@ class FavoriteAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitFavorite(articles: List<ArticleNews>){
+    fun submitFavorite(articles: List<SavableArticle>){
         this.article = articles
         notifyDataSetChanged()
     }
 
+    /**
+     * 1. Article Details -> Receive an article id as an intent extra.
+     * 2. Push it to the ArticleDetailsViewModel
+     * 3. Load the article up into the state
+     *  a. GetArtcleById ->
+     * 4. Collect the state
+     * */
 
     inner class FavoriteViewHolder(private val binding: ItemArticleFavoriteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bindFavorites(articleNews: ArticleNews) {
+        fun bindFavorites(savableArticle: SavableArticle) {
             binding.apply {
-                tvArticleTitleFavorite.text = articleNews.title
-                Glide.with(binding.root).load(articleNews.imageResId).into(imgArticleFavorite)
+                tvArticleTitleFavorite.text = savableArticle.article.title
+                Glide.with(binding.root).load(savableArticle.article.imageResId).into(imgArticleFavorite)
             }
             binding.root.setOnClickListener {
-                onArticleClicked(articleNews)
+                onArticleClicked(savableArticle)
             }
             binding.btnRemoveFavorite.setOnClickListener {
-                onRemoveFromFavorite(articleNews)
+                onRemoveFromFavorite(savableArticle)
             }
 
         }

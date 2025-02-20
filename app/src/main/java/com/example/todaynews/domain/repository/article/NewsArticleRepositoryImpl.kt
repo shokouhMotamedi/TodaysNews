@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.map
 
 class NewsArticleRepositoryImpl(
     private val articlesDao: ArticleDao,
-    private val favoriteDao: FavoriteDao,
     private val articlesMapper: ArticleNewsMapper
 ) : NewsArticleRepository {
 
@@ -39,33 +38,4 @@ class NewsArticleRepositoryImpl(
             articlesMapper.toDomain(it)
         } }
     }
-
-    override fun getFavorites(): Flow<List<Int>> {
-       return favoriteDao.getFavorites().map { favoriteEntities -> favoriteEntities.map { it ->
-           it.id
-       } }
-    }
-
-    override suspend fun addToFavorite(articleNews: ArticleNews) {
-       favoriteDao.addToFavorite(
-           FavoriteEntity(
-           id = articleNews.id
-       )
-       )
-    }
-
-    override suspend fun removeFromFavorite(articleNews: ArticleNews) {
-        favoriteDao.removeFromFavorite(FavoriteEntity(
-            id = articleNews.id
-        ))
-    }
-
-    override fun getFavoriteArticles(): Flow<List<ArticleNews>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun removeFromFavoriteArticle(articleNews: ArticleNews) {
-        TODO("Not yet implemented")
-    }
-
 }
