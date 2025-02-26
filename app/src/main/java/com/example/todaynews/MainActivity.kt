@@ -18,6 +18,4 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragment_holder)
         binding.btmNav.setupWithNavController(navController)
     }
-
-
 }

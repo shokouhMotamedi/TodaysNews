@@ -15,9 +15,12 @@ import com.example.todaynews.domain.repository.favorite.FavoriteRepositoryImpl
 import com.example.todaynews.domain.usecase.AddOrRemoveFromFavoriteUsecase
 import com.example.todaynews.domain.usecase.AddToFavorite
 import com.example.todaynews.domain.usecase.FavoriteUseCase
+import com.example.todaynews.domain.usecase.GetArticleByIdUsercase
 import com.example.todaynews.domain.usecase.GetArticlesUseCase
 import com.example.todaynews.domain.usecase.GetSavableArticlesUseCase
 import com.example.todaynews.domain.usecase.RemoveFromFavorite
+import com.example.todaynews.presentation.detail.ArticleDetailsViewModel
+import com.example.todaynews.presentation.detail.DetailViewModelFactory
 import com.example.todaynews.presentation.favorite.FavoriteViewModelFactory
 import com.example.todaynews.presentation.home.HomeViewModelFactory
 
@@ -32,15 +35,16 @@ object DependencyContainer {
     private lateinit var articleListMapper: ArticleListMapper
     private lateinit var getArticlesUseCase: GetArticlesUseCase
     internal lateinit var favoriteViewModelFactory: FavoriteViewModelFactory
-    private lateinit var addOrRemoveFromFavoriteUsecase: AddOrRemoveFromFavoriteUsecase
+    lateinit var addOrRemoveFromFavoriteUsecase: AddOrRemoveFromFavoriteUsecase
     private lateinit var favoriteRepository: FavoriteRepository
     private lateinit var favoriteUseCase: FavoriteUseCase
     private lateinit var favoriteMapper: FavoriteMapper
     private lateinit var addToFavorite: AddToFavorite
     private lateinit var removeFromFavorite: RemoveFromFavorite
     private lateinit var getSavableArticlesUseCase: GetSavableArticlesUseCase
-
-
+    private lateinit var articleDetailViewModel: ArticleDetailsViewModel
+    lateinit var detailViewModelFactory: DetailViewModelFactory
+    lateinit var getArticleByIdUsercase: GetArticleByIdUsercase
 
     fun init(context: Context) {
         database = ArticleDatabase.getDatabase(context)
@@ -61,5 +65,6 @@ object DependencyContainer {
         getSavableArticlesUseCase = GetSavableArticlesUseCase(favoriteRepository, getArticlesUseCase)
         homeViewModelFactory = HomeViewModelFactory(getSavableArticlesUseCase, addOrRemoveFromFavoriteUsecase)
         favoriteViewModelFactory = FavoriteViewModelFactory(favoriteUseCase =  favoriteUseCase, removeFromFavorite =  removeFromFavorite)
+        getArticleByIdUsercase = GetArticleByIdUsercase(articleRepository =newsArticleRepository, favoriteRepository = favoriteRepository )
     }
 }

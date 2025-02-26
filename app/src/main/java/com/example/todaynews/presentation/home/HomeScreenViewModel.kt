@@ -67,19 +67,17 @@ class HomeScreenViewModel(
     fun onAction(action: HomeScreenAction){
         when(action){
             is HomeScreenAction.AddToFavorites -> handleAddToFavorite(action.article)
-            is HomeScreenAction.OnNewsClicked -> handleClickOnNews(action.article)
+            is HomeScreenAction.OnArticleClicked -> handleArticleClick(action.article)
         }
     }
-
+    private fun handleArticleClick(articleNews: ArticleNews){
+        viewModelScope.launch {
+            _eventChannel.send(HomeScreenEvent.NavigateToDetails(articleNews.id))
+        }
+    }
     private fun handleAddToFavorite(articleNews: ArticleNews){
         viewModelScope.launch {
             addOrRemoveFromFavoriteUsecase.invoke(articleNews)
-        }
-    }
-
-    private fun handleClickOnNews(articleNews: ArticleNews){
-        viewModelScope.launch {
-            TODO()
         }
     }
 }

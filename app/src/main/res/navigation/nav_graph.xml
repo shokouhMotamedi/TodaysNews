@@ -12,8 +12,8 @@
         android:label="Home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_readNewsFragment"
-            app:destination="@id/readNewsFragment" />
+            android:id="@+id/action_homeFragment_to_articleDetailActivity"
+            app:destination="@id/articleDetailActivity" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -21,21 +21,17 @@
         android:label="Favorite"
         tools:layout="@layout/fragment_favorite" >
         <action
-            android:id="@+id/action_favoriteFragment_to_readNewsFragment"
-            app:destination="@id/readNewsFragment" />
+            android:id="@+id/action_favoriteFragment_to_articleDetailActivity"
+            app:destination="@id/articleDetailActivity" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.todaynews.presentation.search.SearchFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
-    <fragment
-        android:id="@+id/readNewsFragment"
-        android:name="com.example.todaynews.presentation.detail.ReadNewsFragment"
-        android:label="fragment_read_news"
-        tools:layout="@layout/fragment_read_news" >
-        <action
-            android:id="@+id/action_readNewsFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-    </fragment>
+    <activity
+        android:id="@+id/articleDetailActivity"
+        android:name="com.example.todaynews.presentation.detail.ArticleDetailActivity"
+        android:label="activity_article_detail"
+        tools:layout="@layout/activity_article_detail" />
 </navigation>

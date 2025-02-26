@@ -60,3 +60,10 @@ sealed class UsecaseResult(
     class Success(override val articles: List<ArticleNews>): UsecaseResult(articles)
     class Error(override val articles: List<ArticleNews>, val error: String?): UsecaseResult(articles)
 }
+
+sealed class GenericUsecaseResult<T>(
+    open val data: T?
+){ class Loading<T>(override val data: T): GenericUsecaseResult<T>(data)
+    class Success<T>(override val data: T): GenericUsecaseResult<T>(data)
+    class Error<T>(override val data: T?, val error: String?): GenericUsecaseResult<T>(data)
+}

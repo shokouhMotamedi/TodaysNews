@@ -35,14 +35,6 @@ class FavoriteAdapter(
         notifyDataSetChanged()
     }
 
-    /**
-     * 1. Article Details -> Receive an article id as an intent extra.
-     * 2. Push it to the ArticleDetailsViewModel
-     * 3. Load the article up into the state
-     *  a. GetArtcleById ->
-     * 4. Collect the state
-     * */
-
     inner class FavoriteViewHolder(private val binding: ItemArticleFavoriteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

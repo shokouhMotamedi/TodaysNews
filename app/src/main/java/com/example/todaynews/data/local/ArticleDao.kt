@@ -8,21 +8,21 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ArticleDao{
+interface ArticleDao: IArticleDao{
 
     @Query("SELECT * FROM article_tables")
-    fun getArticlesAsFlow(): Flow<List<ArticleEntity>>
+    override fun getArticlesAsFlow(): Flow<List<ArticleEntity>>
 
     @Query("SELECT * FROM article_tables WHERE id IN (:ids)")
-    fun getArticlesWithIds(ids: List<Int>): Flow<List<ArticleEntity>>
+    override fun getArticlesWithIds(ids: List<Int>): Flow<List<ArticleEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertArticle(articleEntity: ArticleEntity)
+    override suspend fun insertArticle(articleEntity: ArticleEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertArticles(articles: List<ArticleEntity>)
+    override suspend fun insertArticles(articles: List<ArticleEntity>)
 
     @Delete
-    suspend fun removeArticle(articleEntity: ArticleEntity)
+    override suspend fun removeArticle(articleEntity: ArticleEntity)
 
 }

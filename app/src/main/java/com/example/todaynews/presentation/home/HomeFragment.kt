@@ -2,21 +2,20 @@ package com.example.todaynews.presentation.home
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.todaynews.R
 import com.example.todaynews.databinding.FragmentHomeBinding
 import com.example.todaynews.di.DependencyContainer
 import com.example.todaynews.presentation.adapters.ArticleAdapter
+import com.example.todaynews.presentation.detail.ArticleDetailActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -39,8 +38,8 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         articleAdapter = ArticleAdapter(
-            onNewsClicked = { articleNews ->
-                findNavController().navigate(R.id.action_homeFragment_to_readNewsFragment)
+            onNewsClicked = { savableArticle ->
+               viewModel.onAction(HomeScreenAction.OnArticleClicked(savableArticle.article))
             },
             onAddToFavorite = { articleNews ->
                 viewModel.onAction(HomeScreenAction.AddToFavorites(articleNews.article))
@@ -72,11 +71,16 @@ class HomeFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.event.collect{ event ->
                     when(event){
-                        HomeScreenEvent.NavigateToDetails -> {
-                            //
-                        }
                         is HomeScreenEvent.ShowSnacbarWithMessage -> {
                             Snackbar.make(binding.root,event.message,Snackbar.LENGTH_SHORT).show()
+                        }
+
+                        is HomeScreenEvent.NavigateToDetails -> {
+                            val intent = Intent(requireContext(), ArticleDetailActivity::class.java).apply {
+                                putExtra("ARTICLE_ID",event.articleId)
+                            }
+                            startActivity(intent)
+
                         }
                     }
                 }
