@@ -3,8 +3,9 @@ package com.example.todaynews.domain.usecase
 import com.example.todaynews.domain.model.ArticleNews
 import com.example.todaynews.domain.repository.favorite.FavoriteRepository
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 
-class AddOrRemoveFromFavoriteUsecase(
+class AddOrRemoveFromFavoriteUsecase @Inject constructor(
     private val favoriteRepository: FavoriteRepository,
     private val addToFavorite: AddToFavorite,
     private val removeFromFavorite: RemoveFromFavorite

@@ -1,13 +1,17 @@
 package com.example.todaynews.domain.usecase
 
+import com.example.todaynews.data.local.ArticleEntity
+import com.example.todaynews.data.remote.Article
 import com.example.todaynews.data.remote.ArticlesApiService
 import com.example.todaynews.domain.mapper.ArticleListMapper
+import com.example.todaynews.domain.mapper.Mapper
 import com.example.todaynews.domain.model.ArticleNews
 import com.example.todaynews.domain.repository.article.NewsArticleRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
 /**
  * OFFLINE FIRST.
@@ -17,10 +21,10 @@ import kotlinx.coroutines.flow.flow
  * 4. Return the latest articles
  * SOLID
  * */
-class GetArticlesUseCase(
+class GetArticlesUseCase @Inject constructor(
     private val articleRepository: NewsArticleRepository,
     private val apiService: ArticlesApiService,
-    private val articlesResonseMapper: ArticleListMapper
+    private val articlesResonseMapper: Mapper<Article, ArticleEntity>
 ) {
 
     fun invoke(): Flow<UsecaseResult>{

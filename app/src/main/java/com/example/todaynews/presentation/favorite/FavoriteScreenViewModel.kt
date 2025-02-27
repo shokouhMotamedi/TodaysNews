@@ -10,10 +10,12 @@ import com.example.todaynews.domain.usecase.UsecaseResult
 import com.example.todaynews.presentation.home.FavoriteScreenAction
 import com.example.todaynews.presentation.home.SavableArticle
 import com.example.todaynews.presentation.home.StateViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-
-class FavoriteScreenViewModel(
+import javax.inject.Inject
+@HiltViewModel
+class FavoriteScreenViewModel @Inject constructor(
     private val favoriteUseCase: FavoriteUseCase,
     private val removeFromFavorite: RemoveFromFavorite
 ) : ViewModel() {

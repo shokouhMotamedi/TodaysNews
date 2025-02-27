@@ -6,9 +6,10 @@ import com.example.todaynews.presentation.home.SavableArticle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import javax.inject.Inject
 
 
-class GetArticleByIdUsercase(
+class GetArticleByIdUsercase @Inject constructor(
     private val articleRepository: NewsArticleRepository,
     private val favoriteRepository: FavoriteRepository
 ) {

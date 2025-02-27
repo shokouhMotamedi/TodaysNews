@@ -6,14 +6,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.todaynews.domain.model.ArticleNews
 import com.example.todaynews.domain.usecase.AddOrRemoveFromFavoriteUsecase
 import com.example.todaynews.domain.usecase.GetSavableArticlesUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-
-class HomeScreenViewModel(
+import javax.inject.Inject
+@HiltViewModel
+class HomeScreenViewModel @Inject constructor(
     private val getSavableArticleUserCase: GetSavableArticlesUseCase,
     private val addOrRemoveFromFavoriteUsecase: AddOrRemoveFromFavoriteUsecase
 ) : ViewModel() {

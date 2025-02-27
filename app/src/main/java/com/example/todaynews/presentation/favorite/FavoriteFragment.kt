@@ -14,17 +14,17 @@ import com.example.todaynews.di.DependencyContainer
 import com.example.todaynews.presentation.adapters.FavoriteAdapter
 import com.example.todaynews.presentation.detail.ArticleDetailActivity
 import com.example.todaynews.presentation.home.FavoriteScreenAction
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FavoriteFragment : Fragment() {
 
     private lateinit var  binding: FragmentFavoriteBinding
     private lateinit var favoriteAdapter: FavoriteAdapter
 
-    private val viewModel: FavoriteScreenViewModel by viewModels {
-        DependencyContainer.favoriteViewModelFactory
-    }
+    private val viewModel: FavoriteScreenViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

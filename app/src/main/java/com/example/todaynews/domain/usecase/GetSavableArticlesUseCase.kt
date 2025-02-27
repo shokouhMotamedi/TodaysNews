@@ -4,8 +4,9 @@ import com.example.todaynews.domain.repository.favorite.FavoriteRepository
 import com.example.todaynews.presentation.home.SavableArticle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import javax.inject.Inject
 
-class GetSavableArticlesUseCase(
+class GetSavableArticlesUseCase @Inject constructor(
     private val favoriteRepository: FavoriteRepository,
     private val getArticlesUseCase: GetArticlesUseCase
 ) {

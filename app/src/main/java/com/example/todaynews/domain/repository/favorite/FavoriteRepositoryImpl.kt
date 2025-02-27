@@ -3,13 +3,15 @@ package com.example.todaynews.domain.repository.favorite
 import com.example.todaynews.data.local.FavoriteDao
 import com.example.todaynews.data.local.FavoriteEntity
 import com.example.todaynews.domain.mapper.FavoriteMapper
+import com.example.todaynews.domain.mapper.Mapper
 import com.example.todaynews.domain.model.FavoriteArticle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class FavoriteRepositoryImpl(
+class FavoriteRepositoryImpl @Inject constructor(
     private val favoriteDao: FavoriteDao,
-    private val favoriteMapper: FavoriteMapper
+    private val favoriteMapper: Mapper<FavoriteEntity, FavoriteArticle>
 ): FavoriteRepository {
 
     override fun getFavoriteArticles(): Flow<List<FavoriteArticle>> {

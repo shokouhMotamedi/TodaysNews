@@ -17,19 +17,18 @@ import com.example.todaynews.di.DependencyContainer
 import com.example.todaynews.presentation.adapters.ArticleAdapter
 import com.example.todaynews.presentation.detail.ArticleDetailActivity
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding get() = _binding!!
     private lateinit var articleAdapter: ArticleAdapter
 
-    private val viewModel: HomeScreenViewModel by viewModels {
-        DependencyContainer.homeViewModelFactory
-    }
+    private val viewModel: HomeScreenViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -9,10 +9,11 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.todaynews.R
 import com.example.todaynews.databinding.ActivityArticleDetailBinding
-import com.example.todaynews.di.DependencyContainer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ArticleDetailActivity : AppCompatActivity() {
 
     /**
@@ -25,25 +26,33 @@ class ArticleDetailActivity : AppCompatActivity() {
 
     private lateinit var _binding: ActivityArticleDetailBinding
     private val binding get() = _binding
-    private val viewModel: ArticleDetailsViewModel by viewModels {
-        DetailViewModelFactory(
-            getArticleByIdUsercase = DependencyContainer.getArticleByIdUsercase,
-            addOrRemoveFromFavoriteUsecase = DependencyContainer.addOrRemoveFromFavoriteUsecase,
-            owner = this@ArticleDetailActivity
-        )
-    }
+    private val viewModel: ArticleDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         _binding = ActivityArticleDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val articleId = intent.getIntExtra("ARTICLE_ID", -1)
-        viewModel.onAction(ArticleDetailAction.LoadArticle(articleId))
+
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        loadArticleDetail()
+        collectState()
 
+    }
+
+    private fun collectState() {
+        lifecycleScope.launch {
+            viewModel.state.collect { stateViewModel ->
+                val article = stateViewModel.article
+                article?.let { savableArticle ->
+                    binding.titleRead.text = savableArticle.article.title
+                    binding.descriptionRead.text = savableArticle.article.description
+                    binding.favoriteRead.updateIconTInt(savableArticle.isFavorite)
+                    Glide.with(this@ArticleDetailActivity).load(savableArticle.article.imageResId)
+                        .into(binding.ivToolbarImage)
+
+                }
+            }
+        }
         binding.favoriteRead.setOnClickListener {
             val article = viewModel.state.value.article
             article?.let {
@@ -53,24 +62,8 @@ class ArticleDetailActivity : AppCompatActivity() {
 
     }
 
-    private fun loadArticleDetail() {
-        lifecycleScope.launch {
-            viewModel.state.collect { stateViewModel ->
-                val article = stateViewModel.article
-                article?.let { savableArticle ->
-                    binding.titleRead.text = savableArticle.article.title
-                    binding.descriptionRead.text = savableArticle.article.description
-                    binding.favoriteRead.updateIconTInt(savableArticle.isFavorite)
-                    Glide.with(this@ArticleDetailActivity).load(savableArticle.article.imageResId).into(binding.ivToolbarImage)
-
-                }
-            }
-        }
-
-    }
-
-    private fun FloatingActionButton.updateIconTInt(isFavorite: Boolean){
-        val colorResId = if(isFavorite) R.color.red else R.color.black
+    private fun FloatingActionButton.updateIconTInt(isFavorite: Boolean) {
+        val colorResId = if (isFavorite) R.color.red else R.color.black
         this.imageTintList = ColorStateList.valueOf(getColor(colorResId))
     }
 }

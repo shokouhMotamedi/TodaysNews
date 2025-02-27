@@ -6,8 +6,9 @@ import com.example.todaynews.domain.mapper.Mapper
 import com.example.todaynews.domain.model.ArticleNews
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class NewsArticleRepositoryImpl(
+class NewsArticleRepositoryImpl @Inject constructor(
     private val articlesDao: IArticleDao,
     private val articlesMapper: Mapper<ArticleEntity, ArticleNews>
 ) : NewsArticleRepository {
