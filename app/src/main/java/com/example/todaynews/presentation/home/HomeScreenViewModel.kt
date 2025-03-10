@@ -1,7 +1,6 @@
 package com.example.todaynews.presentation.home
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.todaynews.domain.model.ArticleNews
 import com.example.todaynews.domain.usecase.AddOrRemoveFromFavoriteUsecase
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val getSavableArticleUserCase: GetSavableArticlesUseCase,
+    getSavableArticleUserCase: GetSavableArticlesUseCase,
     private val addOrRemoveFromFavoriteUsecase: AddOrRemoveFromFavoriteUsecase
 ) : ViewModel() {
     // Single Shot Events
@@ -81,14 +80,5 @@ class HomeScreenViewModel @Inject constructor(
         viewModelScope.launch {
             addOrRemoveFromFavoriteUsecase.invoke(articleNews)
         }
-    }
-}
-
-class HomeViewModelFactory(
-    private val getArticlesUseCase: GetSavableArticlesUseCase,
-    private val addOrRemoveFromFavoriteUsecase: AddOrRemoveFromFavoriteUsecase
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return HomeScreenViewModel(getArticlesUseCase, addOrRemoveFromFavoriteUsecase) as T
     }
 }

@@ -1,17 +1,12 @@
 package com.example.todaynews.presentation.detail
 
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
 import com.example.todaynews.R
 import com.example.todaynews.databinding.ActivityArticleDetailBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ArticleDetailActivity : AppCompatActivity() {
@@ -31,39 +26,13 @@ class ArticleDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityArticleDetailBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         setContentView(binding.root)
 
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        collectState()
 
     }
 
-    private fun collectState() {
-        lifecycleScope.launch {
-            viewModel.state.collect { stateViewModel ->
-                val article = stateViewModel.article
-                article?.let { savableArticle ->
-                    binding.titleRead.text = savableArticle.article.title
-                    binding.descriptionRead.text = savableArticle.article.description
-                    binding.favoriteRead.updateIconTInt(savableArticle.isFavorite)
-                    Glide.with(this@ArticleDetailActivity).load(savableArticle.article.imageResId)
-                        .into(binding.ivToolbarImage)
-
-                }
-            }
-        }
-        binding.favoriteRead.setOnClickListener {
-            val article = viewModel.state.value.article
-            article?.let {
-                viewModel.onAction(ArticleDetailAction.AddOrRemoveFavoriteDetail(it.article))
-            }
-        }
-
-    }
-
-    private fun FloatingActionButton.updateIconTInt(isFavorite: Boolean) {
-        val colorResId = if (isFavorite) R.color.red else R.color.black
-        this.imageTintList = ColorStateList.valueOf(getColor(colorResId))
-    }
 }

@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todaynews.databinding.FragmentHomeBinding
-import com.example.todaynews.di.DependencyContainer
 import com.example.todaynews.presentation.adapters.ArticleAdapter
 import com.example.todaynews.presentation.detail.ArticleDetailActivity
 import com.google.android.material.snackbar.Snackbar

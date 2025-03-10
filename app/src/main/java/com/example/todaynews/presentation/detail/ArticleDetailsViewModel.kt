@@ -1,76 +1,69 @@
 package com.example.todaynews.presentation.detail
 
-import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.savedstate.SavedStateRegistryOwner
+import com.example.todaynews.domain.model.ArticleNews
 import com.example.todaynews.domain.usecase.AddOrRemoveFromFavoriteUsecase
 import com.example.todaynews.domain.usecase.GetArticleByIdUsercase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val TAG = "ArticleDetailsViewModel"
 @HiltViewModel
 class ArticleDetailsViewModel @Inject constructor(
     private val getArticleByIdUsercase: GetArticleByIdUsercase,
     private val addOrRemoveFromFavoriteUsecase: AddOrRemoveFromFavoriteUsecase,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    // When is 1 flow,  which we want to use as an input of other flow
-    val state = savedStateHandle.getStateFlow("ARTICLE_ID",-1)
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading get() = _isLoading.asStateFlow()
+
+    val savableArticle = savedStateHandle.getStateFlow("ARTICLE_ID",-1)
         .flatMapConcat { articleId ->
             getArticleByIdUsercase.invoke(articleId)
         }
         .map { result ->
-            ArticleDetailsScreenState(
-                article = result.data,
-                isLoading = false
-            )
+            _isLoading.value = false
+            result.data
         }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000),ArticleDetailsScreenState())
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000),null)
 
-
-    fun onAction(action: ArticleDetailAction) {
-        when (action) {
-            is ArticleDetailAction.AddOrRemoveFavoriteDetail -> {
-                viewModelScope.launch {
-                    addOrRemoveFromFavoriteUsecase.invoke(action.article)
-                }
-            }
+    fun addOrRemoveFromFavorite(article: ArticleNews){
+        viewModelScope.launch {
+            addOrRemoveFromFavoriteUsecase.invoke(article)
         }
     }
 
 
 }
 
-class DetailViewModelFactory(
-    private val getArticleByIdUsercase: GetArticleByIdUsercase,
-    private val addOrRemoveFromFavoriteUsecase: AddOrRemoveFromFavoriteUsecase,
-    owner: SavedStateRegistryOwner
-) : AbstractSavedStateViewModelFactory(owner, null) {
-
-    override fun <T : ViewModel> create(
-        key: String,
-        modelClass: Class<T>,
-        handle: SavedStateHandle
-    ): T {
-        return ArticleDetailsViewModel(
-            getArticleByIdUsercase,
-            addOrRemoveFromFavoriteUsecase,
-            handle
-        ) as T
-    }
-
-}
 
 /**
+ *********
+ *
+ *     // When is 1 flow,  which we want to use as an input of other flow
+ *     val state = savedStateHandle.getStateFlow("ARTICLE_ID",-1)
+ *         .flatMapConcat { articleId ->
+ *             getArticleByIdUsercase.invoke(articleId)
+ *         }
+ *         .map { result ->
+ *             ArticleDetailsScreenState(
+ *                 article = result.data,
+ *                 isLoading = false
+ *             )
+ *         }
+ *         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000),ArticleDetailsScreenState())
+ *
+ *
+ *********
  *
  * private val _state: MutableStateFlow<ArticleDetailsScreenState> =
  *         MutableStateFlow(ArticleDetailsScreenState())

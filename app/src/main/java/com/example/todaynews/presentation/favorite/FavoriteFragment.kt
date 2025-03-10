@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.todaynews.databinding.FragmentFavoriteBinding
-import com.example.todaynews.di.DependencyContainer
 import com.example.todaynews.presentation.adapters.FavoriteAdapter
 import com.example.todaynews.presentation.detail.ArticleDetailActivity
 import com.example.todaynews.presentation.home.FavoriteScreenAction
@@ -29,7 +28,7 @@ class FavoriteFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false)
 
         favoriteAdapter = FavoriteAdapter(

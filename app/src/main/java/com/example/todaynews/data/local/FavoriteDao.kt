@@ -8,18 +8,18 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface FavoriteDao {
+interface FavoriteDao: IFavoriteDao {
 
     @Query("SELECT * FROM favorites_list")
-    fun getFavorites():Flow<List<FavoriteEntity>>
+    override fun getFavorites():Flow<List<FavoriteEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addToFavoriteList(articles : List<FavoriteEntity>)
+    override suspend fun addToFavoriteList(articles : List<FavoriteEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addToFavorite(articles: FavoriteEntity)
+    override suspend fun addToFavorite(articles: FavoriteEntity)
 
 
     @Delete
-    suspend fun removeFromFavorite(favoriteEntity: FavoriteEntity)
+    override suspend fun removeFromFavorite(favoriteEntity: FavoriteEntity)
 }

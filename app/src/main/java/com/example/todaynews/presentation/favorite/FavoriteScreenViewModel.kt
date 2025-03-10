@@ -1,7 +1,6 @@
 package com.example.todaynews.presentation.favorite
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.todaynews.domain.model.ArticleNews
 import com.example.todaynews.domain.usecase.FavoriteUseCase
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
 class FavoriteScreenViewModel @Inject constructor(
-    private val favoriteUseCase: FavoriteUseCase,
+    favoriteUseCase: FavoriteUseCase,
     private val removeFromFavorite: RemoveFromFavorite
 ) : ViewModel() {
 
@@ -44,13 +43,4 @@ class FavoriteScreenViewModel @Inject constructor(
         }
     }
 
-}
-
-class FavoriteViewModelFactory(
-    private val removeFromFavorite: RemoveFromFavorite,
-    private val favoriteUseCase: FavoriteUseCase
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return FavoriteScreenViewModel(favoriteUseCase, removeFromFavorite) as T
-    }
 }
